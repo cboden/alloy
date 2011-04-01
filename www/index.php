@@ -95,11 +95,6 @@ try {
     // Run resulting content through filter
     $content = $kernel->events()->filter('dispatch_content', $content);
 
-// Authentication Error
-} catch(\Alloy\Exception_Auth $e) {
-    $responseStatus = 403;
-    $content = $e;
- 
 // 404 Errors
 } catch(\Alloy\Exception_FileNotFound $e) {
     $responseStatus = 404;
