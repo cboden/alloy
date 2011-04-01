@@ -88,7 +88,7 @@ try {
     }
     
     // Raise 404 error on boolean false result
-    if(false === $content) {
+    if(false === $content || (is_a($content, 'Alloy\View\Template') && !$content->exists())) {
         throw new \Alloy\Exception_FileNotFound("Requested file or page not found. Please check the URL and try again.");
     }
 
