@@ -88,13 +88,18 @@ try {
     }
     
     // Raise 404 error on boolean false result
-    if(false === $content || (is_a($content, 'Alloy\View\Template') && !$content->exists())) {
+    if(false === $content) {
         throw new \Alloy\Exception_FileNotFound("Requested file or page not found. Please check the URL and try again.");
     }
 
     // Run resulting content through filter
     $content = $kernel->events()->filter('dispatch_content', $content);
 
+// Authentication Error
+} catch(\Alloy\Exception_Auth $e) {
+    $responseStatus = 403;
+    $content = $e;
+ 
 // 404 Errors
 } catch(\Alloy\Exception_FileNotFound $e) {
     $responseStatus = 404;
