@@ -1,10 +1,12 @@
 <?php
 $form = $view->helper('Form');
-$formMethod = strtoupper(($method == 'GET' || $method == 'POST') ? $method : 'post');
+$action = isset($action) ? $action : '';
+$method = isset($method) ? $method : 'GET';
+$formMethod = strtoupper(($method == 'GET' || $method == 'POST') ? $method : 'POST');
 $formMethodRest = ($formMethod == 'POST' && $method != 'POST') ? $method : false;
 ?>
 
-<form action="<?php echo $action; ?>" method="post" enctype="<?php echo $enctype; ?>">
+<form action="<?php echo $action; ?>" method="<?php echo $formMethod; ?>" enctype="<?php echo $enctype; ?>">
   <div class="app_form">
   <?php if($fields && count($fields) >0): ?>
   <?php
@@ -14,6 +16,10 @@ $formMethodRest = ($formMethod == 'POST' && $method != 'POST') ? $method : false
     ?>
     <div class="app_form_field app_form_field_<?php echo strtolower($fieldOpts['type']); ?>">
       <label><?php echo $fieldLabel; ?></label>
+      <?php
+      // Content that comes before the field
+      echo isset($fieldOpts['before']) ? '<span class="app_form_field_before">' . $fieldOpts['before'] . '</span>' : '';
+      ?>
       <span>
       <?php
       // Adjust field depending on field type
@@ -52,6 +58,10 @@ $formMethodRest = ($formMethod == 'POST' && $method != 'POST') ? $method : false
       }
       ?>
       </span>
+      <?php
+      // Content that comes after the field
+      echo isset($fieldOpts['after']) ? '<span class="app_form_field_after">' . $fieldOpts['after'] . '</span>' : '';
+      ?>
     </div>
   <?php endforeach; ?>
   <?php endif; ?>
